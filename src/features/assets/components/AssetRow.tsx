@@ -17,7 +17,14 @@ export function AssetRow({ asset }: AssetRowProps) {
     >
       {/* Asset name */}
       <TableCell className="p-2 align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0 *:[[role=checkbox]]:translate-y-0.5 font-medium text-neutral-100">
-        {asset.name}
+        <div className="flex items-center gap-2">
+          <img
+            src={asset.imageUrl}
+            alt={asset.name}
+            className="h-5 w-5 rounded-full"
+          />
+          {asset.name}
+        </div>
       </TableCell>
 
       {/* Symbol */}

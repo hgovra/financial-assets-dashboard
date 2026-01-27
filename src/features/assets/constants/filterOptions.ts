@@ -1,11 +1,13 @@
-import type { AssetType, PriceChange } from "../types/asset";
+import type { MarketCapCategory, PriceChange } from "../types/asset";
 
-export const ASSET_TYPE_OPTIONS: {
-  value: AssetType;
+export const MARKET_CAP_CATEGORIES: {
+  value: MarketCapCategory;
   label: string;
 }[] = [
-  { value: "all", label: "All Assets" },
-  { value: "crypto", label: "Crypto" },
+  { value: "all", label: "All" },
+  { value: "large", label: "Large Cap" },
+  { value: "mid", label: "Mid Cap" },
+  { value: "small", label: "Small Cap" },
 ];
 
 export const PRICE_CHANGE_OPTIONS: {

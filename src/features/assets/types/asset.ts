@@ -8,6 +8,6 @@ export type Asset = {
   type: "crypto" | "stock";
 };
 
-export type AssetType = "all" | "crypto" | "stock";
+export type MarketCapCategory = "all" | "large" | "mid" | "small";
 
 export type PriceChange = "all" | "gainers" | "losers";

@@ -1,14 +1,15 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { AssetsTable } from "../components/AssetsTable";
 import FiltersBar from "../components/FiltersBar";
 import { useAssetsQuery } from "../hooks/useAssetsQuery";
-
-/* -------------------------------------------------------------------------- */
-/* Types                                                                      */
-/* -------------------------------------------------------------------------- */
-
-type PriceChangeFilter = "all" | "gainers" | "losers";
+import {
+  setMarketCapCategory,
+  setPriceChange,
+  setSearch,
+} from "../slices/assetsFiltersSlice";
+import { filterByMarketCap } from "../utils/filterByMarketCap";
 
 /* -------------------------------------------------------------------------- */
 /* Page                                                                       */
@@ -17,8 +18,11 @@ type PriceChangeFilter = "all" | "gainers" | "losers";
 export function AssetsPage() {
   const { data: assets = [], isLoading, isError } = useAssetsQuery();
 
-  const [search, setSearch] = useState("");
-  const [priceChange, setPriceChange] = useState<PriceChangeFilter>("all");
+  const dispatch = useAppDispatch();
+
+  const { search, marketCapCategory, priceChange } = useAppSelector(
+    (state) => state.assetsFilters,
+  );
 
   const filteredAssets = useMemo(() => {
     return assets
@@ -26,17 +30,14 @@ export function AssetsPage() {
         asset.name.toLowerCase().includes(search.toLowerCase()),
       )
       .filter((asset) => {
-        if (priceChange === "gainers") {
-          return asset.priceChange24h > 0;
-        }
+        if (priceChange === "gainers") return asset.priceChange24h > 0;
 
-        if (priceChange === "losers") {
-          return asset.priceChange24h < 0;
-        }
+        if (priceChange === "losers") return asset.priceChange24h < 0;
 
         return true;
-      });
-  }, [assets, search, priceChange]);
+      })
+      .filter((asset) => filterByMarketCap(asset, marketCapCategory));
+  }, [assets, search, priceChange, marketCapCategory]);
 
   if (isError) {
     return (
@@ -50,14 +51,12 @@ export function AssetsPage() {
     <>
       {/* Filters */}
       <FiltersBar
-        marketCapCategory={""}
-        priceChange={""}
-        onMarketCapCategoryChange={function (value: string): void {
-          throw new Error("Function not implemented.");
-        }}
-        onPriceChangeChange={function (value: string): void {
-          throw new Error("Function not implemented.");
-        }}
+        search={search}
+        priceChange={priceChange}
+        marketCapCategory={marketCapCategory}
+        onSearchChange={(value) => dispatch(setSearch(value))}
+        onPriceChangeChange={(value) => dispatch(setPriceChange(value))}
+        onMarketCapChange={(value) => dispatch(setMarketCapCategory(value))}
       />
 
       {/* Table */}

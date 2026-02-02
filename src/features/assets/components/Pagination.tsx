@@ -40,7 +40,7 @@ export function Pagination({
         <Button
           variant="outline"
           size="sm"
-          className="bg-neutral-900 border-neutral-800 text-neutral-100 hover:bg-neutral-800 hover:text-neutral-100 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="bg-neutral-900 border-neutral-800 text-neutral-100 hover:bg-neutral-800 hover:text-neutral-300 disabled:opacity-50 disabled:cursor-not-allowed"
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
         >
@@ -56,7 +56,7 @@ export function Pagination({
             className={
               page === currentPage
                 ? "bg-neutral-100 text-neutral-900 hover:bg-neutral-200"
-                : "bg-neutral-900 border-neutral-800 text-neutral-100 hover:bg-neutral-800 hover:text-neutral-100"
+                : "bg-neutral-900 border-neutral-800 text-neutral-100 hover:bg-neutral-800 hover:text-neutral-300"
             }
             onClick={() => onPageChange(page)}
           >
@@ -67,7 +67,7 @@ export function Pagination({
         <Button
           variant="outline"
           size="sm"
-          className="bg-neutral-900 border-neutral-800 text-neutral-100 hover:bg-neutral-800 hover:text-neutral-100 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="bg-neutral-900 border-neutral-800 text-neutral-100 hover:bg-neutral-800 hover:text-neutral-300 disabled:opacity-50 disabled:cursor-not-allowed"
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
         >

@@ -28,7 +28,7 @@ export function AssetRow({ asset }: AssetRowProps) {
       </TableCell>
 
       {/* Symbol */}
-      <TableCell className="p-2 align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0 *:[[role=checkbox]]:translate-y-0.5 text-neutral-400 font-mono text-sm">
+      <TableCell className="p-2 align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0 *:[[role=checkbox]]:translate-y-0.5 text-neutral-400 font-mono text-sm text-center">
         {asset.symbol}
       </TableCell>
 

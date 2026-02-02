@@ -3,12 +3,14 @@ import { useMemo } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { AssetsTable } from "../components/AssetsTable";
 import FiltersBar from "../components/FiltersBar";
+import { Pagination } from "../components/Pagination";
 import { useAssetsQuery } from "../hooks/useAssetsQuery";
 import {
   setMarketCapCategory,
   setPriceChange,
   setSearch,
 } from "../slices/assetsFiltersSlice";
+import { setPage } from "../slices/paginationSlice";
 import { filterByMarketCap } from "../utils/filterByMarketCap";
 
 /* -------------------------------------------------------------------------- */
@@ -39,6 +41,15 @@ export function AssetsPage() {
       .filter((asset) => filterByMarketCap(asset, marketCapCategory));
   }, [assets, search, priceChange, marketCapCategory]);
 
+  const { currentPage, pageSize } = useAppSelector((state) => state.pagination);
+
+  const paginatedAssets = useMemo(() => {
+    const start = (currentPage - 1) * pageSize;
+    const end = start + pageSize;
+
+    return filteredAssets.slice(start, end);
+  }, [filteredAssets, currentPage, pageSize]);
+
   if (isError) {
     return (
       <div className="py-10 text-center text-sm text-red-500">
@@ -58,9 +69,15 @@ export function AssetsPage() {
         onPriceChangeChange={(value) => dispatch(setPriceChange(value))}
         onMarketCapChange={(value) => dispatch(setMarketCapCategory(value))}
       />
-
       {/* Table */}
-      <AssetsTable assets={filteredAssets} isLoading={isLoading} />
+      <AssetsTable assets={paginatedAssets} isLoading={isLoading} />
+      {/* Pagination */}
+      <Pagination
+        totalItems={filteredAssets.length}
+        currentPage={currentPage}
+        pageSize={pageSize}
+        onPageChange={(page) => dispatch(setPage(page))}
+      />
     </>
   );
 }

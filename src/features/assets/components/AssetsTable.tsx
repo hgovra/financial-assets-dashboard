@@ -23,11 +23,13 @@ export function AssetsTable({ assets, isLoading }: AssetsTableProps) {
 
   return (
     <div className="overflow-x-auto">
-      <Table className="w-full caption-bottom text-sm">
+      <Table className="w-full caption-bottom text-sm table-fixed">
         <TableHeader className="[&_tr]:border-b">
           <TableRow className="data-[state=selected]:bg-muted border-b transition-colors border-neutral-800 hover:bg-transparent">
-            <TableHead className="text-neutral-400">Asset</TableHead>
-            <TableHead className="text-neutral-400">Symbol</TableHead>
+            <TableHead className="text-neutral-400 w-1/3">Asset</TableHead>
+            <TableHead className="text-neutral-400 text-center">
+              Symbol
+            </TableHead>
             <TableHead className="text-neutral-400 text-right">Price</TableHead>
             <TableHead className="text-neutral-400 text-right">
               24h Change

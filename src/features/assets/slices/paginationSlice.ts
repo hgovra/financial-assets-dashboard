@@ -1,6 +1,6 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
-type PaginationState = {
+export type PaginationState = {
   currentPage: number;
   pageSize: number;
 };

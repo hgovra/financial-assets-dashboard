@@ -8,6 +8,6 @@ export type Asset = {
   marketCap: number;
 };
 
-export type MarketCapCategory = "all" | "large" | "mid" | "small";
+export type MarketCap = "all" | "large" | "mid" | "small";
 
 export type PriceChange = "all" | "gainers" | "losers";

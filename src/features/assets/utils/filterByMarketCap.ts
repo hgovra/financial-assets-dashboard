@@ -1,6 +1,6 @@
-import type { Asset, MarketCapCategory } from "../types/asset";
+import type { Asset, MarketCap } from "../types/asset";
 
-export function filterByMarketCap(asset: Asset, category: MarketCapCategory) {
+export function filterByMarketCap(asset: Asset, category: MarketCap) {
   if (category === "all") return true;
 
   const cap = asset.marketCap;

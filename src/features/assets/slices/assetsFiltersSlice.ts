@@ -1,14 +1,14 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { MarketCapCategory, PriceChange } from "../types/asset";
+import type { MarketCap, PriceChange } from "../types/asset";
 
 /* -------------------------------------------------------------------------- */
 /* Types                                                                      */
 /* -------------------------------------------------------------------------- */
 
-type AssetsFiltersState = {
+export type AssetsFiltersState = {
   search: string;
   priceChange: PriceChange;
-  marketCapCategory: MarketCapCategory;
+  marketCap: MarketCap;
 };
 
 /* -------------------------------------------------------------------------- */
@@ -18,7 +18,7 @@ type AssetsFiltersState = {
 const initialState: AssetsFiltersState = {
   search: "",
   priceChange: "all",
-  marketCapCategory: "all",
+  marketCap: "all",
 };
 
 /* -------------------------------------------------------------------------- */
@@ -32,8 +32,8 @@ const assetsFiltersSlice = createSlice({
     setSearch(state, action: PayloadAction<string>) {
       state.search = action.payload;
     },
-    setMarketCapCategory(state, action: PayloadAction<MarketCapCategory>) {
-      state.marketCapCategory = action.payload;
+    setMarketCap(state, action: PayloadAction<MarketCap>) {
+      state.marketCap = action.payload;
     },
     setPriceChange(state, action: PayloadAction<PriceChange>) {
       state.priceChange = action.payload;
@@ -41,10 +41,21 @@ const assetsFiltersSlice = createSlice({
     resetFilters() {
       return initialState;
     },
+    hydrateFilters(state, action: PayloadAction<Partial<AssetsFiltersState>>) {
+      return {
+        ...state,
+        ...action.payload,
+      };
+    },
   },
 });
 
-export const { setSearch, setMarketCapCategory, setPriceChange, resetFilters } =
-  assetsFiltersSlice.actions;
+export const {
+  setSearch,
+  setMarketCap,
+  setPriceChange,
+  resetFilters,
+  hydrateFilters,
+} = assetsFiltersSlice.actions;
 
 export default assetsFiltersSlice.reducer;

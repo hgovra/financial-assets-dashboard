@@ -1,7 +1,7 @@
-import type { MarketCapCategory, PriceChange } from "../types/asset";
+import type { MarketCap, PriceChange } from "../types/asset";
 
 export const MARKET_CAP_CATEGORIES: {
-  value: MarketCapCategory;
+  value: MarketCap;
   label: string;
 }[] = [
   { value: "all", label: "All" },

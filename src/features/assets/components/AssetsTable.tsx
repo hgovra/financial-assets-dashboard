@@ -27,15 +27,17 @@ export function AssetsTable({ assets, isLoading }: AssetsTableProps) {
       <Table className="w-full caption-bottom text-sm table-fixed">
         <TableHeader className="[&_tr]:border-b">
           <TableRow className="data-[state=selected]:bg-muted border-b transition-colors border-neutral-800 hover:bg-transparent">
-            <TableHead className="text-neutral-400 w-1/3">Asset</TableHead>
-            <TableHead className="text-neutral-400 text-center">
+            <TableHead className="text-neutral-400">Asset</TableHead>
+            <TableHead className="text-neutral-400 text-center w-1/6">
               Symbol
             </TableHead>
-            <TableHead className="text-neutral-400 text-right">Price</TableHead>
-            <TableHead className="text-neutral-400 text-right">
+            <TableHead className="text-neutral-400 text-right w-1/6">
+              Price
+            </TableHead>
+            <TableHead className="text-neutral-400 text-right w-1/6">
               24h Change
             </TableHead>
-            <TableHead className="text-neutral-400 text-right">
+            <TableHead className="text-neutral-400 text-right w-1/6">
               Market Cap
             </TableHead>
           </TableRow>
@@ -57,13 +59,21 @@ export function AssetsTable({ assets, isLoading }: AssetsTableProps) {
 function AssetsTableSkeleton() {
   return (
     <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead>Asset</TableHead>
-          <TableHead>Symbol</TableHead>
-          <TableHead>Price</TableHead>
-          <TableHead>24h</TableHead>
-          <TableHead className="text-right">Market Cap</TableHead>
+      <TableHeader className="[&_tr]:border-b">
+        <TableRow className="data-[state=selected]:bg-muted border-b transition-colors border-neutral-800 hover:bg-transparent">
+          <TableHead className="text-neutral-400">Asset</TableHead>
+          <TableHead className="text-neutral-400 text-center w-1/6">
+            Symbol
+          </TableHead>
+          <TableHead className="text-neutral-400 text-right w-1/6">
+            Price
+          </TableHead>
+          <TableHead className="text-neutral-400 text-right w-1/6">
+            24h Change
+          </TableHead>
+          <TableHead className="text-neutral-400 text-right w-1/6">
+            Market Cap
+          </TableHead>
         </TableRow>
       </TableHeader>
 
@@ -71,19 +81,19 @@ function AssetsTableSkeleton() {
         {Array.from({ length: 6 }).map((_, index) => (
           <TableRow key={index}>
             <TableCell>
-              <Skeleton className="h-4 w-32" />
+              <Skeleton className="h-4 w-full" />
             </TableCell>
-            <TableCell>
-              <Skeleton className="h-4 w-16" />
+            <TableCell className="text-center w-1/6">
+              <Skeleton className="h-4 w-full" />
             </TableCell>
-            <TableCell>
-              <Skeleton className="h-4 w-24" />
+            <TableCell className="text-right w-1/6">
+              <Skeleton className="h-4 w-full" />
             </TableCell>
-            <TableCell>
-              <Skeleton className="h-4 w-20" />
+            <TableCell className="text-right w-1/6">
+              <Skeleton className="h-4 w-full" />
             </TableCell>
-            <TableCell className="text-right">
-              <Skeleton className="h-4 w-28 ml-auto" />
+            <TableCell className="text-right w-1/6">
+              <Skeleton className="h-4 w-full" />
             </TableCell>
           </TableRow>
         ))}

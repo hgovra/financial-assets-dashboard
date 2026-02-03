@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/table";
 
 import { Skeleton } from "@/components/ui/skeleton";
+import { TrendingDown } from "lucide-react";
 import type { Asset } from "../types/asset";
 import { AssetRow } from "./AssetRow";
 
@@ -93,8 +94,18 @@ function AssetsTableSkeleton() {
 
 function AssetsTableEmptyState() {
   return (
-    <div className="py-10 text-center text-sm text-muted-foreground">
-      No assets match your current filters.
+    <div className="flex flex-col items-center justify-center py-16 px-4">
+      <div className="text-neutral-600 mb-2">
+        <TrendingDown className="w-12 h-12 mx-auto mb-4" />
+      </div>
+
+      <h3 className="text-lg font-medium text-neutral-300 mb-1">
+        No assets found
+      </h3>
+
+      <p className="text-neutral-500 text-center">
+        Try adjusting your filters or search query
+      </p>
     </div>
   );
 }

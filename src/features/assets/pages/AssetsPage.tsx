@@ -5,6 +5,7 @@ import {
   paginationToSearchParams,
 } from "@/shared/utils/urlState";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { CircleOff } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
 import { AssetsTable } from "../components/AssetsTable";
 import FiltersBar from "../components/FiltersBar";
@@ -24,7 +25,7 @@ import { filterByMarketCap } from "../utils/filterByMarketCap";
 /* Page                                                                       */
 /* -------------------------------------------------------------------------- */
 
-export function AssetsPage() {
+function AssetsPage() {
   const { data: assets = [], isLoading, isError } = useAssetsQuery();
 
   const [searchParams] = useSearchParams();
@@ -100,8 +101,16 @@ export function AssetsPage() {
 
   if (isError) {
     return (
-      <div className="py-10 text-center text-sm text-red-500">
-        Failed to load assets. Please try again later.
+      <div className="flex flex-col items-center justify-center py-16 px-4">
+        <div className="text-red-600 mb-2">
+          <CircleOff className="w-12 h-12 mx-auto mb-4" />
+        </div>
+
+        <h3 className="text-lg font-medium text-red-300 mb-1">
+          Failed to load assets
+        </h3>
+
+        <p className="text-red-500 text-center">Please try again later</p>
       </div>
     );
   }

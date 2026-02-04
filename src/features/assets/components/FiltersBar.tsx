@@ -1,19 +1,19 @@
 import {
-    InputGroup,
-    InputGroupAddon,
-    InputGroupInput,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
 } from "@/components/ui/input-group";
 import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "@/components/ui/select";
 import { Search } from "lucide-react";
 import {
-    MARKET_CAP_CATEGORIES,
-    PRICE_CHANGE_OPTIONS,
+  MARKET_CAP_CATEGORIES,
+  PRICE_CHANGE_OPTIONS,
 } from "../constants/filterOptions";
 import type { MarketCap, PriceChange } from "../types/asset";
 
@@ -38,6 +38,7 @@ const FiltersBar = ({
     <section className="flex flex-col sm:flex-row gap-3 p-4 bg-neutral-900/50 border-b border-neutral-800">
       <InputGroup className="file:text-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 flex h-9 w-full min-w-0 rounded-md border p-1 text-base transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-neutral-900 border-neutral-800 text-neutral-100 placeholder:text-neutral-500 focus:border-neutral-700">
         <InputGroupInput
+          aria-label="Search assets"
           placeholder="Search by name or symbol..."
           value={search}
           onChange={(e) => onSearchChange(e.target.value)}

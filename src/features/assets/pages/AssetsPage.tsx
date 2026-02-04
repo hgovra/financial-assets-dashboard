@@ -1,10 +1,10 @@
 import { useEffect, useMemo } from "react";
 
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   filtersToSearchParams,
   paginationToSearchParams,
-} from "@/shared/utils/urlState";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
+} from "@/utils/urlState";
 import { CircleOff } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
 import { AssetsTable } from "../components/AssetsTable";

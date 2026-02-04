@@ -1,7 +1,7 @@
 import { TableCell, TableRow } from "@/components/ui/table";
 
-import { formatCurrency } from "@/shared/utils/formatCurrency";
-import { formatMarketCap } from "@/shared/utils/formatMarketCap";
+import { formatCurrency } from "@/features/assets/utils/formatCurrency";
+import { formatMarketCap } from "@/features/assets/utils/formatMarketCap";
 import type { Asset } from "../types/asset";
 import { PriceChange } from "./PriceChange";
 

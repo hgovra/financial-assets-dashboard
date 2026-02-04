@@ -7,8 +7,7 @@ export function filtersToSearchParams(filters: AssetsFiltersState) {
   if (filters.search) params.set("search", filters.search);
   if (filters.priceChange !== "all")
     params.set("priceChange", filters.priceChange);
-  if (filters.marketCap !== "all")
-    params.set("marketCap", filters.marketCap);
+  if (filters.marketCap !== "all") params.set("marketCap", filters.marketCap);
 
   return params;
 }

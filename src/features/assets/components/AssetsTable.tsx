@@ -78,22 +78,22 @@ function AssetsTableSkeleton() {
       </TableHeader>
 
       <TableBody>
-        {Array.from({ length: 6 }).map((_, index) => (
+        {Array.from({ length: 10 }).map((_, index) => (
           <TableRow key={index}>
             <TableCell>
-              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-5 w-full" />
             </TableCell>
             <TableCell className="text-center w-1/6">
-              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-5 w-full" />
             </TableCell>
             <TableCell className="text-right w-1/6">
-              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-5 w-full" />
             </TableCell>
             <TableCell className="text-right w-1/6">
-              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-5 w-full" />
             </TableCell>
             <TableCell className="text-right w-1/6">
-              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-5 w-full" />
             </TableCell>
           </TableRow>
         ))}

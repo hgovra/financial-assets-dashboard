@@ -1,5 +1,5 @@
+import { formatPercentage } from "@/features/assets/utils/formatPercentage";
 import { cn } from "@/lib/utils";
-import { formatPercentage } from "@/shared/utils/formatPercentage";
 import { TrendingDown, TrendingUp } from "lucide-react";
 
 type PriceChangeProps = {

@@ -9,6 +9,7 @@ with a focus on:
 - Clean and explicit architecture
 - Thoughtful state management
 - Real-world UX and data tradeoffs
+- Pragmatic testing strategies
 - Recruiter-friendly, defensible decisions
 
 This project intentionally avoids overengineering while still reflecting
@@ -51,6 +52,7 @@ These principles guide all implementation decisions:
 - Components are mostly **presentational**
 - Derived data is calculated explicitly using `useMemo`
 - UI state is deterministic and explainable
+- Accessibility is treated as a first-class concern
 - No unnecessary abstractions are introduced
 
 ---
@@ -121,7 +123,7 @@ URL parameters include:
 ### Empty State
 - Dedicated empty state component rendered when filters return no results
 - Clear, neutral messaging guiding the user to adjust filters or search
-- No logic inside the component (purely presentational)
+- Component is purely presentational
 
 ### Loading State
 - Skeleton UI displayed while data is being fetched
@@ -180,13 +182,35 @@ unrelated renders.
 
 ---
 
-## Next Steps (Non-Exhaustive)
+## Testing Strategy (Final)
 
-Future improvements may include:
-- Unit tests for reducers and utility functions
-- Minor UX and accessibility refinements
-- Final visual polish
-- Final review and cleanup for portfolio presentation
+Testing focuses on **high-confidence, low-maintenance coverage**.
+
+### What is Tested
+- **Utility functions**
+  - Formatting
+  - Market cap classification
+  - URL state helpers
+- **Redux slices (UI state)**
+  - Initial state
+  - Reducers
+  - Reset and hydration logic
+- **One integration test**
+  - Validates the main user flow:
+    data fetching → filters → rendered output
+
+### What Is Explicitly Not Tested
+- Visual components (tables, pagination, skeletons)
+- TanStack Query internals
+- API fetching behavior
+
+### Integration Test Details
+- `useAssetsQuery` is mocked with a minimal, casted `UseQueryResult`
+- `MemoryRouter` is used to provide routing context without relying on the browser
+- Elements are queried using `getByRole` and accessible names
+- Inputs include `aria-label` to ensure accessibility and robust testing
+
+This approach balances confidence, clarity, and maintainability.
 
 ---
 

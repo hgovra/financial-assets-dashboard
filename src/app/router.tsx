@@ -1,5 +1,5 @@
+import AppLayout from "@/components/layout/AppLayout";
 import AssetsPage from "@/features/assets/pages/AssetsPage";
-import AppLayout from "@/layout/AppLayout";
 import { Route, Routes } from "react-router-dom";
 
 export default function AppRoutes() {

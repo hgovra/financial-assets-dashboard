@@ -5,6 +5,7 @@ const AppLayout = () => {
   return (
     <>
       <Header />
+
       <main className="container mx-auto">
         <Outlet />
       </main>

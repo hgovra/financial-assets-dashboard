@@ -1,7 +1,8 @@
-import { filtersToSearchParams, paginationToSearchParams } from "./urlState";
 
 import type { AssetsFiltersState } from "@/features/assets/slices/assetsFiltersSlice";
 import type { PaginationState } from "@/features/assets/slices/paginationSlice";
+
+import { filtersToSearchParams, paginationToSearchParams } from "./urlState";
 
 describe("filtersToSearchParams", () => {
   it("returns empty search params when all filters are default", () => {

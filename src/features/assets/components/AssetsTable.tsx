@@ -1,3 +1,6 @@
+import { TrendingDown } from "lucide-react";
+
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
   TableBody,
@@ -7,9 +10,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { Skeleton } from "@/components/ui/skeleton";
-import { TrendingDown } from "lucide-react";
+
 import type { Asset } from "../types/asset";
+
 import { AssetRow } from "./AssetRow";
 
 type AssetsTableProps = {

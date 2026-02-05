@@ -1,11 +1,13 @@
-import { store } from "@/app/store";
-import { useAssetsQuery } from "@/features/assets/hooks/useAssetsQuery";
 import type { UseQueryResult } from "@tanstack/react-query";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
 import { vi } from "vitest";
+
+import { store } from "@/app/store";
+import { useAssetsQuery } from "@/features/assets/hooks/useAssetsQuery";
+
 import AssetsPage from "./AssetsPage";
 
 const mockedUseAssetsQuery = vi.mocked(useAssetsQuery);

@@ -1,3 +1,5 @@
+import { Search } from "lucide-react";
+
 import {
   InputGroup,
   InputGroupAddon,
@@ -10,7 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Search } from "lucide-react";
+
 import {
   MARKET_CAP_CATEGORIES,
   PRICE_CHANGE_OPTIONS,

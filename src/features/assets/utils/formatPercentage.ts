@@ -6,7 +6,7 @@ type FormatPercentageOptions = {
 export function formatPercentage(
   value: number,
   {
-    minimumFractionDigits = 2,
+    minimumFractionDigits: _minimumFractionDigits = 2,
     maximumFractionDigits = 2,
   }: FormatPercentageOptions = {},
 ): string {

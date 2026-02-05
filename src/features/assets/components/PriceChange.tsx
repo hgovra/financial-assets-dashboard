@@ -1,6 +1,7 @@
+import { TrendingDown, TrendingUp } from "lucide-react";
+
 import { formatPercentage } from "@/features/assets/utils/formatPercentage";
 import { cn } from "@/lib/shadcn/utils";
-import { TrendingDown, TrendingUp } from "lucide-react";
 
 type PriceChangeProps = {
   value: number;

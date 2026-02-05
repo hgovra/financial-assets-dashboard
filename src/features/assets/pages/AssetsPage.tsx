@@ -1,11 +1,13 @@
+import { CircleOff } from "lucide-react";
+import { useEffect, useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
+
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import {
   filtersToSearchParams,
   paginationToSearchParams,
 } from "@/utils/urlState";
-import { CircleOff } from "lucide-react";
-import { useEffect, useMemo } from "react";
-import { useSearchParams } from "react-router-dom";
+
 import { AssetsTable } from "../components/AssetsTable";
 import FiltersBar from "../components/FiltersBar";
 import { Pagination } from "../components/Pagination";
@@ -30,6 +32,8 @@ function AssetsPage() {
   const [searchParams] = useSearchParams();
   const dispatch = useAppDispatch();
 
+  // Hydrate Redux state from URL on initial load only
+  
   useEffect(() => {
     const search = searchParams.get("search") ?? "";
     const priceChange = searchParams.get("priceChange") ?? "all";
@@ -45,6 +49,9 @@ function AssetsPage() {
     );
 
     dispatch(setPage(page));
+
+    // Intentionally run once to avoid URL/Redux sync loops
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const filters = useAppSelector((s) => s.assetsFilters);
@@ -56,7 +63,7 @@ function AssetsPage() {
     paginationToSearchParams(pagination, params);
 
     setSearchParams(params, { replace: true });
-  }, [filters, pagination]);
+  }, [filters, pagination, setSearchParams]);
 
   const { search, marketCap, priceChange } = useAppSelector(
     (state) => state.assetsFilters,
@@ -92,11 +99,11 @@ function AssetsPage() {
     if (currentPage > totalPages && totalPages > 0) {
       dispatch(setPage(totalPages));
     }
-  }, [filteredAssets.length, currentPage, pageSize]);
+  }, [filteredAssets.length, currentPage, pageSize, dispatch]);
 
   useEffect(() => {
     dispatch(resetPagination());
-  }, [filters.search, filters.priceChange, filters.marketCap]);
+  }, [filters.search, filters.priceChange, filters.marketCap, dispatch]);
 
   if (isError) {
     return (

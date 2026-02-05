@@ -1,4 +1,5 @@
 import type { Asset } from "../types/asset";
+
 import { filterByMarketCap } from "./filterByMarketCap";
 
 describe("filterByMarketCap", () => {

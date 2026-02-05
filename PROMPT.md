@@ -4,222 +4,135 @@
 
 This repository contains a portfolio project called **Financial Assets Dashboard**.
 
-The goal of this project is to demonstrate strong Frontend engineering skills
-with a focus on:
-- Clean and explicit architecture
+The goal of this project is to demonstrate strong Frontend engineering skills with
+a focus on:
+
+- Clear architectural boundaries
 - Thoughtful state management
-- Real-world UX and data tradeoffs
-- Pragmatic testing strategies
-- Recruiter-friendly, defensible decisions
+- Real-world data and UX trade-offs
+- Pragmatic, defensible testing strategies
+- Maintainable code and intentional refactoring
 
-This project intentionally avoids overengineering while still reflecting
-production-level patterns and concerns.
+The project is intentionally scoped to avoid overengineering while still
+reflecting production-grade patterns.
 
-The repository itself is the **single source of truth** for the current
-implementation and progress.
+The repository itself is the **single source of truth** for the current state of
+the implementation.
 
 ---
 
 ## Tech Stack (Final Decisions)
 
-The following decisions are **intentional and final**:
+All choices below are **intentional and stable**:
 
 - **React + Vite + TypeScript**
 - **npm** as the package manager
 - **React Router** for routing and URL state
-- **TanStack Query** for server state management
+- **TanStack Query** for server state
 - **Axios** for API integration
-- **Redux Toolkit** used **only for UI state**
-  - Filters
-  - Pagination
+- **Redux Toolkit** for UI state only
+  - filters
+  - pagination
 - **shadcn/ui** for UI components
+- **Tailwind CSS** for styling
 - **CoinGecko API** as the data source
+
+### Tooling & Config
 - Environment variables via `.env.local`
 - Typed environment variables in `vite-env.d.ts`
 - `refetchOnWindowFocus` disabled
-- Explicit `staleTime` configuration (e.g. `60_000`)
+- Explicit `staleTime` configuration
+- ESLint configured to:
+  - enforce exhaustive deps by default
+  - allow underscore-prefixed unused variables
+
+---
+
+## Folder Structure & Responsibilities
+
+The project is organized by **feature boundaries**, not technical layers.
+
+```txt
+src/
+├─ app/
+│   ├─ store.ts
+│   ├─ router.tsx
+│   ├─ queryClient.ts
+│   └─ hooks.ts
+│
+├─ components/
+│   ├─ layout/
+│   │   ├─ AppLayout.tsx
+│   │   └─ Header.tsx
+│   └─ ui/
+│
+├─ features/
+│   └─ assets/
+│       ├─ pages/
+│       │   └─ AssetsPage.tsx
+│       ├─ components/
+│       ├─ hooks/
+│       ├─ slices/
+│       ├─ utils/
+│       └─ types/
+│
+├─ lib/
+│   └─ shadcn/
+│       └─ utils.ts
+│
+├─ utils/
+│   ├─ formatCurrency.ts
+│   ├─ formatPercentage.ts
+│   ├─ formatMarketCap.ts
+│   └─ urlState.ts
+│
+├─ index.css
+├─ main.tsx
+└─ vite-env.d.ts
+```
 
 ---
 
 ## Architectural Principles
 
-These principles guide all implementation decisions:
-
-- **Server state must never be duplicated in Redux**
-- TanStack Query is the single source of truth for fetched data
-- Redux Toolkit is reserved exclusively for **UI concerns**
-- Pages (e.g. `AssetsPage`) orchestrate data and UI state
-- Components are mostly **presentational**
-- Derived data is calculated explicitly using `useMemo`
-- UI state is deterministic and explainable
+- Server state lives **only** in TanStack Query
+- Redux Toolkit is used **only for UI state**
+- No server data is duplicated in Redux
+- Pages orchestrate data and state
+- Components are mostly presentational
+- Derived state is computed with `useMemo`
 - Accessibility is treated as a first-class concern
-- No unnecessary abstractions are introduced
+- Refactors must not change behavior
 
 ---
 
-## Implemented Features (Current State)
+## useEffect Policy
 
-### Data Fetching
-- `useAssetsQuery` encapsulates all fetching logic
-- `assetsApi.ts` contains:
-  - CoinGecko API calls
-  - A mapper converting API responses into internal `Asset` models
-
-### Table & Data Presentation
-- `AssetsTable` and `AssetRow`
-- Stable column widths using fixed table layout
-- Cryptocurrency logos via CoinGecko image URLs
-- Data formatting utilities:
-  - `formatCurrency` (price)
-  - `formatPercentage` (24h change with sign and color)
-  - `formatMarketCap` (compact notation)
-
-### Filters
-Implemented filters:
-- Search by name or symbol
-- Price Change (All / Gainers / Losers)
-- Market Cap Category (Large / Mid / Small)
-
-Filters are fully combinable and applied deterministically.
+- Bootstrap effects may intentionally disable exhaustive-deps
+- Reactive effects must list all dependencies
+- Guards must be explicit and defensive
+- Only one eslint-disable is allowed by design
 
 ---
 
-## Pagination
+## ESLint Policy for Unused Variables
 
-- Client-side pagination derived from already fetched data
-- Pagination state stored in Redux (UI-only)
-- Page resets automatically when filters change
-- Guards prevent invalid page states
-- Pagination controls are rendered outside the table
-- Pagination metadata (“Showing X to Y of Z assets”) is derived UI state
-
-Pagination is treated as **derived UI state**, not server state.
+- Public APIs may include unused options
+- Unused variables are prefixed with `_`
+- ESLint is configured to ignore underscore-prefixed variables
 
 ---
 
-## URL State Synchronization
+## Testing Strategy
 
-Filters and pagination are synchronized with the URL to support:
-- Deep linking
-- Refresh persistence
-- Shareable dashboard state
-
-### Strategy
-- The URL **hydrates Redux once** on initial load
-- Redux remains the active source of truth
-- The URL is updated as a serialized snapshot of UI state
-- Infinite sync loops are explicitly avoided
-
-URL parameters include:
-- `search`
-- `priceChange`
-- `marketCap`
-- `page` (and optionally `pageSize`)
-
----
-
-## Empty, Loading and Error States
-
-### Empty State
-- Dedicated empty state component rendered when filters return no results
-- Clear, neutral messaging guiding the user to adjust filters or search
-- Component is purely presentational
-
-### Loading State
-- Skeleton UI displayed while data is being fetched
-- Prevents layout shifts and improves perceived performance
-
-### Error State
-- Dedicated API error state
-- Clear feedback when data fetching fails
-
-These states are handled explicitly and consistently.
-
----
-
-## Market Cap Classification (Important Design Decision)
-
-The CoinGecko API does not provide native filters for market cap ranges.
-Additionally, returned datasets are heavily skewed toward high market cap assets.
-
-For this reason, market cap categories are treated as a **UI-level
-classification**, not as strict financial definitions.
-
-Goals:
-- Avoid empty filter states
-- Improve UX and data exploration
-- Keep filtering deterministic and explainable
-
-Example ranges (subject to adjustment):
-- **Large Cap**: ≥ $50B
-- **Mid Cap**: $5B – $50B
-- **Small Cap**: < $5B
-
-This logic is centralized in a utility function to ensure:
-- Single source of truth
-- Easy adjustment
-- Unit testability
-- No coupling with data fetching
-
-The API provides raw data only.
-All semantic interpretation is handled client-side.
-
----
-
-## State Derivation Model
-
-The data flow follows a clear derivation chain:
-
-assets (server state)
-↓
-filteredAssets (derived via useMemo)
-↓
-paginatedAssets (derived via useMemo)
-
-
-Each layer reacts only to its true inputs and remains reference-stable across
-unrelated renders.
-
----
-
-## Testing Strategy (Final)
-
-Testing focuses on **high-confidence, low-maintenance coverage**.
-
-### What is Tested
-- **Utility functions**
-  - Formatting
-  - Market cap classification
-  - URL state helpers
-- **Redux slices (UI state)**
-  - Initial state
-  - Reducers
-  - Reset and hydration logic
-- **One integration test**
-  - Validates the main user flow:
-    data fetching → filters → rendered output
-
-### What Is Explicitly Not Tested
-- Visual components (tables, pagination, skeletons)
-- TanStack Query internals
-- API fetching behavior
-
-### Integration Test Details
-- `useAssetsQuery` is mocked with a minimal, casted `UseQueryResult`
-- `MemoryRouter` is used to provide routing context without relying on the browser
-- Elements are queried using `getByRole` and accessible names
-- Inputs include `aria-label` to ensure accessibility and robust testing
-
-This approach balances confidence, clarity, and maintainability.
+- Unit tests for utilities
+- Unit tests for Redux UI state
+- One integration test covering the main flow
+- No visual or styling tests
 
 ---
 
 ## Guiding Principle
 
-Any change or feature must:
-- Respect existing architectural decisions
-- Keep responsibilities clearly separated
-- Remain easy to explain in a technical interview
-- Improve the project as a **portfolio artifact**, not just as a demo
-
-Always consult the existing codebase before proposing changes.
+Every change must be intentional, explainable, and improve clarity
+without changing behavior.

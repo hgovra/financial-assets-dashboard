@@ -7,7 +7,7 @@ const AppLayout = () => {
     <>
       <Header />
 
-      <main className="container mx-auto">
+      <main className="container flex flex-1 flex-col mx-auto">
         <Outlet />
       </main>
     </>

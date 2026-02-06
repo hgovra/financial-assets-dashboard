@@ -2,7 +2,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
-import { PageFooterInfo } from "./PageFooterInfo";
+import { PageInfo } from "./PageInfo";
 
 interface PaginationProps {
   totalItems: number;
@@ -31,7 +31,7 @@ export function Pagination({
   return (
     <div className="flex items-center justify-between px-4 py-4 border-t border-neutral-800 bg-neutral-900/50">
       {/* Left side info */}
-      <PageFooterInfo
+      <PageInfo
         currentPage={currentPage}
         pageSize={pageSize}
         totalItems={totalItems}

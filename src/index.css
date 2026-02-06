@@ -117,7 +117,25 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  @apply min-h-screen bg-neutral-950 text-neutral-100 font-sans antialiased;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
 }

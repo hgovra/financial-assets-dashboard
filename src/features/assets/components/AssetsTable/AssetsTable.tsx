@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/table";
 
 
-import type { Asset } from "../types/asset";
+import type { Asset } from "../../types/asset";
 
 import { AssetRow } from "./AssetRow";
 
@@ -26,7 +26,7 @@ export function AssetsTable({ assets, isLoading }: AssetsTableProps) {
   if (assets.length === 0) return <AssetsTableEmptyState />;
 
   return (
-    <div className="overflow-x-auto">
+    <div className="flex-1 overflow-x-auto">
       <Table className="w-full caption-bottom text-sm table-fixed">
         <TableHeader className="[&_tr]:border-b">
           <TableRow className="data-[state=selected]:bg-muted border-b transition-colors border-neutral-800 hover:bg-transparent">
@@ -107,9 +107,9 @@ function AssetsTableSkeleton() {
 
 function AssetsTableEmptyState() {
   return (
-    <div className="flex flex-col items-center justify-center py-16 px-4">
+    <div className="flex flex-1 flex-col items-center justify-center py-16 px-4">
       <div className="text-neutral-600 mb-2">
-        <TrendingDown className="w-12 h-12 mx-auto mb-4" />
+        <TrendingDown className="w-12 h-12 mx-auto mb-2" />
       </div>
 
       <h3 className="text-lg font-medium text-neutral-300 mb-1">

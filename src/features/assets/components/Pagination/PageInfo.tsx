@@ -1,16 +1,16 @@
-interface PageFooterInfoProps {
+interface PageInfoProps {
   currentPage: number;
   pageSize: number;
   totalItems: number;
   label?: string;
 }
 
-export function PageFooterInfo({
+export function PageInfo({
   currentPage,
   pageSize,
   totalItems,
   label = "assets",
-}: PageFooterInfoProps) {
+}: PageInfoProps) {
   const start = (currentPage - 1) * pageSize + 1;
   const end = Math.min(currentPage * pageSize, totalItems);
 

@@ -1,4 +1,4 @@
-import { CircleOff } from "lucide-react";
+import { ServerOff } from "lucide-react";
 import { useEffect, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 
@@ -8,9 +8,9 @@ import {
   paginationToSearchParams,
 } from "@/utils/urlState";
 
-import { AssetsTable } from "../components/AssetsTable";
+import { AssetsTable } from "../components/AssetsTable/AssetsTable";
 import FiltersBar from "../components/FiltersBar";
-import { Pagination } from "../components/Pagination";
+import { Pagination } from "../components/Pagination/Pagination";
 import { useAssetsQuery } from "../hooks/useAssetsQuery";
 import {
   hydrateFilters,
@@ -33,7 +33,7 @@ function AssetsPage() {
   const dispatch = useAppDispatch();
 
   // Hydrate Redux state from URL on initial load only
-  
+
   useEffect(() => {
     const search = searchParams.get("search") ?? "";
     const priceChange = searchParams.get("priceChange") ?? "all";
@@ -107,9 +107,9 @@ function AssetsPage() {
 
   if (isError) {
     return (
-      <div className="flex flex-col items-center justify-center py-16 px-4">
+      <div className="flex flex-1 flex-col items-center justify-center py-16 px-4">
         <div className="text-red-600 mb-2">
-          <CircleOff className="w-12 h-12 mx-auto mb-4" />
+          <ServerOff className="w-12 h-12 mx-auto mb-2" />
         </div>
 
         <h3 className="text-lg font-medium text-red-300 mb-1">

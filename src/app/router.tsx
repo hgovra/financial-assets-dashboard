@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 
 import AppLayout from "@/components/layout/AppLayout";
+import NotFound from "@/components/layout/NotFound";
 import AssetsPage from "@/features/assets/pages/AssetsPage";
 
 export default function AppRoutes() {
@@ -10,7 +11,7 @@ export default function AppRoutes() {
         <Route path="/" element={<AssetsPage />} />
       </Route>
 
-      <Route path="*" element={<div>Not Found</div>} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }

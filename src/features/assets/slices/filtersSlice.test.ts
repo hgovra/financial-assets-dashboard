@@ -1,12 +1,12 @@
 import reducer, {
-    hydrateFilters,
-    setMarketCap,
-    setPriceChange,
-    setSearch,
-    type AssetsFiltersState,
-} from "./assetsFiltersSlice";
+  hydrateFilters,
+  setMarketCap,
+  setPriceChange,
+  setSearch,
+  type AssetsFiltersState,
+} from "./filtersSlice";
 
-describe("assetsFiltersSlice", () => {
+describe("filtersSlice", () => {
   const initialState = {
     search: "",
     priceChange: "all",

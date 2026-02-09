@@ -1,4 +1,3 @@
-import { ServerOff } from "lucide-react";
 import { useEffect, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 
@@ -8,6 +7,7 @@ import {
   paginationToSearchParams,
 } from "@/utils/urlState";
 
+import { ApiError } from "../components/ApiError";
 import { AssetsTable } from "../components/AssetsTable/AssetsTable";
 import FiltersBar from "../components/FiltersBar";
 import { Pagination } from "../components/Pagination/Pagination";
@@ -17,20 +17,45 @@ import {
   setMarketCap,
   setPriceChange,
   setSearch,
-} from "../slices/assetsFiltersSlice";
+} from "../slices/filtersSlice";
 import { resetPagination, setPage } from "../slices/paginationSlice";
 import type { MarketCap, PriceChange } from "../types/asset";
 import { filterByMarketCap } from "../utils/filterByMarketCap";
-
-/* -------------------------------------------------------------------------- */
-/* Page                                                                       */
-/* -------------------------------------------------------------------------- */
 
 function AssetsPage() {
   const { data: assets = [], isLoading, isError } = useAssetsQuery();
 
   const [searchParams] = useSearchParams();
   const dispatch = useAppDispatch();
+  const filters = useAppSelector((s) => s.filters);
+  const pagination = useAppSelector((s) => s.pagination);
+  const [, setSearchParams] = useSearchParams();
+  const { currentPage, pageSize } = useAppSelector((state) => state.pagination);
+  const { search, marketCap, priceChange } = useAppSelector(
+    (state) => state.filters,
+  );
+
+  const filteredAssets = useMemo(() => {
+    return assets
+      .filter((asset) =>
+        asset.name.toLowerCase().includes(search.toLowerCase()),
+      )
+      .filter((asset) => {
+        if (priceChange === "gainers") return asset.priceChange24h > 0;
+
+        if (priceChange === "losers") return asset.priceChange24h < 0;
+
+        return true;
+      })
+      .filter((asset) => filterByMarketCap(asset, marketCap));
+  }, [assets, search, priceChange, marketCap]);
+
+  const paginatedAssets = useMemo(() => {
+    const start = (currentPage - 1) * pageSize;
+    const end = start + pageSize;
+
+    return filteredAssets.slice(start, end);
+  }, [filteredAssets, currentPage, pageSize]);
 
   // Hydrate Redux state from URL on initial load only
 
@@ -54,9 +79,7 @@ function AssetsPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const filters = useAppSelector((s) => s.assetsFilters);
-  const pagination = useAppSelector((s) => s.pagination);
-  const [, setSearchParams] = useSearchParams();
+  // Update URL when filters change and vice-versa
 
   useEffect(() => {
     const params = filtersToSearchParams(filters);
@@ -65,33 +88,7 @@ function AssetsPage() {
     setSearchParams(params, { replace: true });
   }, [filters, pagination, setSearchParams]);
 
-  const { search, marketCap, priceChange } = useAppSelector(
-    (state) => state.assetsFilters,
-  );
-
-  const filteredAssets = useMemo(() => {
-    return assets
-      .filter((asset) =>
-        asset.name.toLowerCase().includes(search.toLowerCase()),
-      )
-      .filter((asset) => {
-        if (priceChange === "gainers") return asset.priceChange24h > 0;
-
-        if (priceChange === "losers") return asset.priceChange24h < 0;
-
-        return true;
-      })
-      .filter((asset) => filterByMarketCap(asset, marketCap));
-  }, [assets, search, priceChange, marketCap]);
-
-  const { currentPage, pageSize } = useAppSelector((state) => state.pagination);
-
-  const paginatedAssets = useMemo(() => {
-    const start = (currentPage - 1) * pageSize;
-    const end = start + pageSize;
-
-    return filteredAssets.slice(start, end);
-  }, [filteredAssets, currentPage, pageSize]);
+  // Update pagination when filters change to last page available
 
   useEffect(() => {
     const totalPages = Math.ceil(filteredAssets.length / pageSize);
@@ -101,25 +98,13 @@ function AssetsPage() {
     }
   }, [filteredAssets.length, currentPage, pageSize, dispatch]);
 
+  // Reset pagination when filters change
+
   useEffect(() => {
     dispatch(resetPagination());
   }, [filters.search, filters.priceChange, filters.marketCap, dispatch]);
 
-  if (isError) {
-    return (
-      <div className="flex flex-1 flex-col items-center justify-center py-16 px-4">
-        <div className="text-red-600 mb-2">
-          <ServerOff className="w-12 h-12 mx-auto mb-2" />
-        </div>
-
-        <h3 className="text-lg font-medium text-red-300 mb-1">
-          Failed to load assets
-        </h3>
-
-        <p className="text-red-500 text-center">Please try again later</p>
-      </div>
-    );
-  }
+  if (isError) return <ApiError />;
 
   return (
     <>

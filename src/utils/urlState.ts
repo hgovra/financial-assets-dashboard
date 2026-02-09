@@ -1,4 +1,4 @@
-import type { AssetsFiltersState } from "@/features/assets/slices/assetsFiltersSlice";
+import type { AssetsFiltersState } from "@/features/assets/slices/filtersSlice";
 import type { PaginationState } from "@/features/assets/slices/paginationSlice";
 
 export function filtersToSearchParams(filters: AssetsFiltersState) {

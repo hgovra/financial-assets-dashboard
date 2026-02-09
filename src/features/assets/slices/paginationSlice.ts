@@ -1,14 +1,20 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
+// Types
+
 export type PaginationState = {
   currentPage: number;
   pageSize: number;
 };
 
+// Initial state
+
 const initialState: PaginationState = {
   currentPage: 1,
   pageSize: 10,
 };
+
+// Slice
 
 const paginationSlice = createSlice({
   name: "pagination",
@@ -19,7 +25,7 @@ const paginationSlice = createSlice({
     },
     setPageSize(state, action: PayloadAction<number>) {
       state.pageSize = action.payload;
-      state.currentPage = 1; // reset intencional
+      state.currentPage = 1; // intentional reset
     },
     resetPagination(state) {
       state.currentPage = 1;

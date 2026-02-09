@@ -2,18 +2,12 @@ import axios from "axios";
 
 import type { Asset } from "../types/asset";
 
-/* -------------------------------------------------------------------------- */
-/* Axios instance                                                             */
-/* -------------------------------------------------------------------------- */
-
 const api = axios.create({
   baseURL: import.meta.env.VITE_COINGECKO_API_BASE_URL,
   timeout: 10_000,
 });
 
-/* -------------------------------------------------------------------------- */
-/* CoinGecko response (partial typing)                                        */
-/* -------------------------------------------------------------------------- */
+// Types
 
 type CoinGeckoMarketItem = {
   id: string;
@@ -25,9 +19,7 @@ type CoinGeckoMarketItem = {
   market_cap: number;
 };
 
-/* -------------------------------------------------------------------------- */
-/* Public API                                                                 */
-/* -------------------------------------------------------------------------- */
+// Public API
 
 export async function fetchAssets(): Promise<Asset[]> {
   const { data } = await api.get<CoinGeckoMarketItem[]>("/coins/markets", {
@@ -44,9 +36,7 @@ export async function fetchAssets(): Promise<Asset[]> {
   return data.map(mapCoinGeckoToAsset);
 }
 
-/* -------------------------------------------------------------------------- */
-/* Mappers                                                                    */
-/* -------------------------------------------------------------------------- */
+// Mappers
 
 function mapCoinGeckoToAsset(item: CoinGeckoMarketItem): Asset {
   return {

@@ -1,8 +1,8 @@
 import reducer, {
-    resetPagination,
-    setPage,
-    setPageSize,
-    type PaginationState,
+  resetPagination,
+  setPage,
+  setPageSize,
+  type PaginationState,
 } from "./paginationSlice";
 
 describe("paginationSlice", () => {

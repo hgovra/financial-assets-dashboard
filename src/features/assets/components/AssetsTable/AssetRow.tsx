@@ -10,11 +10,11 @@ type AssetRowProps = {
   asset: Asset;
 };
 
-export function AssetRow({ asset }: AssetRowProps) {
+function AssetRow({ asset }: AssetRowProps) {
   return (
     <TableRow
       key={asset.id}
-      className="data-[state=selected]:bg-muted border-b border-neutral-800 hover:bg-neutral-900/50 transition-colors"
+      className="data-[state=selected]:bg-muted hover:bg-neutral-900/50 border-neutral-800 border-b transition-colors"
     >
       {/* Asset name */}
       <TableCell className="p-2 align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0 *:[[role=checkbox]]:translate-y-0.5 font-medium text-neutral-100">
@@ -22,7 +22,7 @@ export function AssetRow({ asset }: AssetRowProps) {
           <img
             src={asset.imageUrl}
             alt={asset.name}
-            className="h-5 w-5 rounded-full"
+            className="rounded-full w-5 h-5"
           />
           {asset.name}
         </div>
@@ -50,3 +50,5 @@ export function AssetRow({ asset }: AssetRowProps) {
     </TableRow>
   );
 }
+
+export default AssetRow;

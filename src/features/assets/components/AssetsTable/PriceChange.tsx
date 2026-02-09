@@ -18,16 +18,16 @@ export function PriceChange({ value }: PriceChangeProps) {
   return (
     <span
       className={cn(
-        "flex items-center justify-end gap-1 font-mono tabular-nums",
+        "flex justify-end items-center gap-1 font-mono tabular-nums",
         isPositive && "text-green-500",
         isNegative && "text-red-500",
         isNeutral && "text-muted-foreground",
       )}
     >
       {isPositive ? (
-        <TrendingUp className="h-4 w-4" />
+        <TrendingUp className="w-4 h-4" />
       ) : (
-        <TrendingDown className="h-4 w-4" />
+        <TrendingDown className="w-4 h-4" />
       )}
 
       {sign}

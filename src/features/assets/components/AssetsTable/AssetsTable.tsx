@@ -1,19 +1,16 @@
-import { TrendingDown } from "lucide-react";
-
-import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
   TableBody,
-  TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
 
-
 import type { Asset } from "../../types/asset";
 
-import { AssetRow } from "./AssetRow";
+import AssetRow from "./AssetRow";
+import EmptyState from "./EmptyState";
+import LoadingState from "./LoadingState";
 
 type AssetsTableProps = {
   assets: Asset[];
@@ -21,104 +18,46 @@ type AssetsTableProps = {
 };
 
 export function AssetsTable({ assets, isLoading }: AssetsTableProps) {
-  if (isLoading) return <AssetsTableSkeleton />;
+  if (isLoading) return <LoadingState />;
 
-  if (assets.length === 0) return <AssetsTableEmptyState />;
+  if (assets.length === 0) return <EmptyState />;
 
   return (
     <div className="flex-1 overflow-x-auto">
-      <Table className="w-full caption-bottom text-sm table-fixed">
+      <Table className="w-full text-sm table-fixed caption-bottom">
         <TableHeader className="[&_tr]:border-b">
-          <TableRow className="data-[state=selected]:bg-muted border-b transition-colors border-neutral-800 hover:bg-transparent">
+          <TableRow className="data-[state=selected]:bg-muted hover:bg-transparent border-neutral-800 border-b transition-colors">
+            {/* Asset name */}
             <TableHead className="text-neutral-400">Asset</TableHead>
-            <TableHead className="text-neutral-400 text-center w-1/6">
+
+            {/* Symbol */}
+            <TableHead className="w-1/6 text-neutral-400 text-center">
               Symbol
             </TableHead>
-            <TableHead className="text-neutral-400 text-right w-1/6">
+
+            {/* Price */}
+            <TableHead className="w-1/6 text-neutral-400 text-right">
               Price
             </TableHead>
-            <TableHead className="text-neutral-400 text-right w-1/6">
+
+            {/* 24h Change */}
+            <TableHead className="w-1/6 text-neutral-400 text-right">
               24h Change
             </TableHead>
-            <TableHead className="text-neutral-400 text-right w-1/6">
+
+            {/* Market Cap */}
+            <TableHead className="w-1/6 text-neutral-400 text-right">
               Market Cap
             </TableHead>
           </TableRow>
         </TableHeader>
+
         <TableBody className="[&_tr:last-child]:border-0">
           {assets.map((asset) => (
             <AssetRow key={asset.id} asset={asset} />
           ))}
         </TableBody>
       </Table>
-    </div>
-  );
-}
-
-/* -------------------------------------------------------------------------- */
-/* Skeleton & Empty State                                                      */
-/* -------------------------------------------------------------------------- */
-
-function AssetsTableSkeleton() {
-  return (
-    <Table>
-      <TableHeader className="[&_tr]:border-b">
-        <TableRow className="data-[state=selected]:bg-muted border-b transition-colors border-neutral-800 hover:bg-transparent">
-          <TableHead className="text-neutral-400">Asset</TableHead>
-          <TableHead className="text-neutral-400 text-center w-1/6">
-            Symbol
-          </TableHead>
-          <TableHead className="text-neutral-400 text-right w-1/6">
-            Price
-          </TableHead>
-          <TableHead className="text-neutral-400 text-right w-1/6">
-            24h Change
-          </TableHead>
-          <TableHead className="text-neutral-400 text-right w-1/6">
-            Market Cap
-          </TableHead>
-        </TableRow>
-      </TableHeader>
-
-      <TableBody>
-        {Array.from({ length: 10 }).map((_, index) => (
-          <TableRow key={index}>
-            <TableCell>
-              <Skeleton className="h-5 w-full" />
-            </TableCell>
-            <TableCell className="text-center w-1/6">
-              <Skeleton className="h-5 w-full" />
-            </TableCell>
-            <TableCell className="text-right w-1/6">
-              <Skeleton className="h-5 w-full" />
-            </TableCell>
-            <TableCell className="text-right w-1/6">
-              <Skeleton className="h-5 w-full" />
-            </TableCell>
-            <TableCell className="text-right w-1/6">
-              <Skeleton className="h-5 w-full" />
-            </TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
-  );
-}
-
-function AssetsTableEmptyState() {
-  return (
-    <div className="flex flex-1 flex-col items-center justify-center py-16 px-4">
-      <div className="text-neutral-600 mb-2">
-        <TrendingDown className="w-12 h-12 mx-auto mb-2" />
-      </div>
-
-      <h3 className="text-lg font-medium text-neutral-300 mb-1">
-        No assets found
-      </h3>
-
-      <p className="text-neutral-500 text-center">
-        Try adjusting your filters or search query
-      </p>
     </div>
   );
 }

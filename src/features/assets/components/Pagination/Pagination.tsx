@@ -29,8 +29,8 @@ export function Pagination({
   ).slice(Math.max(currentPage - 2, 0), Math.min(currentPage + 1, totalPages));
 
   return (
-    <div className="flex items-center justify-between px-4 py-4 border-t border-neutral-800 bg-neutral-900/50">
-      {/* Left side info */}
+    <div className="flex justify-between items-center bg-neutral-900/50 px-4 py-4 border-neutral-800 border-t">
+      {/* Page info */}
       <PageInfo
         currentPage={currentPage}
         pageSize={pageSize}
@@ -42,11 +42,11 @@ export function Pagination({
         <Button
           variant="outline"
           size="sm"
-          className="bg-neutral-900 border-neutral-800 text-neutral-100 hover:bg-neutral-800 hover:text-neutral-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="bg-neutral-900 hover:bg-neutral-800 disabled:opacity-50 border-neutral-800 text-neutral-100 hover:text-neutral-300 disabled:cursor-not-allowed"
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
         >
-          <ChevronLeft className="h-4 w-4" />
+          <ChevronLeft className="w-4 h-4" />
           Previous
         </Button>
 
@@ -69,12 +69,12 @@ export function Pagination({
         <Button
           variant="outline"
           size="sm"
-          className="bg-neutral-900 border-neutral-800 text-neutral-100 hover:bg-neutral-800 hover:text-neutral-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="bg-neutral-900 hover:bg-neutral-800 disabled:opacity-50 border-neutral-800 text-neutral-100 hover:text-neutral-300 disabled:cursor-not-allowed"
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
         >
           Next
-          <ChevronRight className="h-4 w-4" />
+          <ChevronRight className="w-4 h-4" />
         </Button>
       </div>
     </div>

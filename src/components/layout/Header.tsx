@@ -2,10 +2,10 @@ import { Github } from "lucide-react";
 
 const Header = () => {
   return (
-    <header className="border-b border-neutral-800 bg-neutral-950">
-      <div className="container lg:max-w-7xl py-4 mx-auto flex items-center justify-between">
+    <header className="bg-neutral-950 border-neutral-800 border-b">
+      <div className="flex justify-between items-center mx-auto py-4 lg:max-w-7xl container">
         {/* Page title */}
-        <h1 className="text-xl font-bold">Market Overview</h1>
+        <h1 className="font-bold text-xl">Financial Assets Dashboard</h1>
 
         {/* GitHub link */}
         <a

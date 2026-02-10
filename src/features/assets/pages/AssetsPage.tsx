@@ -23,17 +23,21 @@ import type { MarketCap, PriceChange } from "../types/asset";
 import { filterByMarketCap } from "../utils/filterByMarketCap";
 
 function AssetsPage() {
-  const { data: assets = [], isLoading, isError } = useAssetsQuery();
+  // Routing + state wiring
 
-  const [searchParams] = useSearchParams();
   const dispatch = useAppDispatch();
-  const filters = useAppSelector((s) => s.filters);
-  const pagination = useAppSelector((s) => s.pagination);
-  const [, setSearchParams] = useSearchParams();
-  const { currentPage, pageSize } = useAppSelector((state) => state.pagination);
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const { search, marketCap, priceChange } = useAppSelector(
     (state) => state.filters,
   );
+  const { currentPage, pageSize } = useAppSelector((state) => state.pagination);
+
+  // Server state
+
+  const { data: assets = [], isLoading, isError } = useAssetsQuery();
+
+  // Derived data (pure)
 
   const filteredAssets = useMemo(() => {
     return assets
@@ -42,9 +46,7 @@ function AssetsPage() {
       )
       .filter((asset) => {
         if (priceChange === "gainers") return asset.priceChange24h > 0;
-
         if (priceChange === "losers") return asset.priceChange24h < 0;
-
         return true;
       })
       .filter((asset) => filterByMarketCap(asset, marketCap));
@@ -57,8 +59,10 @@ function AssetsPage() {
     return filteredAssets.slice(start, end);
   }, [filteredAssets, currentPage, pageSize]);
 
-  // Hydrate Redux state from URL on initial load only
+  // Effects: coordination & guards
 
+  // Hydrate Redux UI state from URL on first render only.
+  // URL is treated as an external persistence layer.
   useEffect(() => {
     const search = searchParams.get("search") ?? "";
     const priceChange = searchParams.get("priceChange") ?? "all";
@@ -79,17 +83,15 @@ function AssetsPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Update URL when filters change and vice-versa
-
+  // Persist Redux UI state back to the URL
   useEffect(() => {
-    const params = filtersToSearchParams(filters);
-    paginationToSearchParams(pagination, params);
+    const params = filtersToSearchParams({ search, marketCap, priceChange });
+    paginationToSearchParams({ currentPage, pageSize }, params);
 
     setSearchParams(params, { replace: true });
-  }, [filters, pagination, setSearchParams]);
+  }, [search, marketCap, priceChange, currentPage, pageSize, setSearchParams]);
 
-  // Update pagination when filters change to last page available
-
+  // Guard against invalid page index after filtering
   useEffect(() => {
     const totalPages = Math.ceil(filteredAssets.length / pageSize);
 
@@ -99,16 +101,16 @@ function AssetsPage() {
   }, [filteredAssets.length, currentPage, pageSize, dispatch]);
 
   // Reset pagination when filters change
-
   useEffect(() => {
     dispatch(resetPagination());
-  }, [filters.search, filters.priceChange, filters.marketCap, dispatch]);
+  }, [search, marketCap, priceChange, dispatch]);
+
+  // Render
 
   if (isError) return <ApiError />;
 
   return (
     <>
-      {/* Filters */}
       <FiltersBar
         search={search}
         priceChange={priceChange}
@@ -117,9 +119,9 @@ function AssetsPage() {
         onPriceChangeChange={(value) => dispatch(setPriceChange(value))}
         onMarketCapChange={(value) => dispatch(setMarketCap(value))}
       />
-      {/* Table */}
+
       <AssetsTable assets={paginatedAssets} isLoading={isLoading} />
-      {/* Pagination */}
+
       <Pagination
         totalItems={filteredAssets.length}
         currentPage={currentPage}
